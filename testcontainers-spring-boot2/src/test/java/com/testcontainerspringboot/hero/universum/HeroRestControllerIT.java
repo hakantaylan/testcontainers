@@ -1,0 +1,58 @@
+package com.testcontainerspringboot.hero.universum;
+
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.util.TestPropertyValues;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.web.servlet.MockMvc;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@Testcontainers
+@ContextConfiguration(initializers = { HeroRestControllerIT.Initializer.class })
+class HeroRestControllerIT {
+
+	@Container
+	private static MySQLContainer database = new MySQLContainer("mysql:latest");
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Autowired
+	private HeroSpringDataJpaRepository heroRepository;
+
+	@Test
+	void allHeros() throws Exception {
+		heroRepository.save(new Hero("Batman", "Gotham City", ComicUniversum.DC_COMICS));
+		heroRepository.save(new Hero("Superman", "Metropolis", ComicUniversum.DC_COMICS));
+
+		mockMvc.perform(get("/heros"))
+			   .andExpect(status().isOk())
+			   .andExpect(jsonPath("$[*].name", containsInAnyOrder("Batman", "Superman")));
+	}
+
+	static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+		@Override
+		public void initialize(ConfigurableApplicationContext applicationContext) {
+			TestPropertyValues.of(
+				"spring.datasource.url=" + database.getJdbcUrl(),
+				"spring.datasource.username=" + database.getUsername(),
+				"spring.datasource.password=" + database.getPassword(),
+				"spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver",
+				"spring.jpa.database-platform=org.hibernate.dialect.MySQL8Dialect")
+							  .applyTo(applicationContext);
+		}
+	}
+}
