@@ -28,6 +28,7 @@ public class BaseIT {
         environment =
                 new DockerComposeContainer(new File("src/test/resources/docker-compose.yaml"))
                         .withExposedService("postgres", POSTGRES_PORT, Wait.forListeningPort())
+//                        .waitingFor("postgres", Wait.forLogMessage("started", 1))
                         .withLocalCompose(true);
 
         environment.start();
