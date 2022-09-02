@@ -1,0 +1,11 @@
+# This file is _not_ required by Testcontainers at all
+# It just provides an easy way to spin up the required services for this application by running `docker-compose up`
+
+version: '3.8'
+
+services:
+
+  postgres:
+    image: 'postgres:latest'
+    environment: ['POSTGRES_USER=admin', 'POSTGRES_PASSWORD=password', 'POSTGRES_DB=postgres']
+    ports: ['5432:5432']
