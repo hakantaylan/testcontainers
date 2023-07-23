@@ -1,9 +1,9 @@
 package com.merikan.testcontainers.todo.model;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import java.io.Serializable;
 
 @Data

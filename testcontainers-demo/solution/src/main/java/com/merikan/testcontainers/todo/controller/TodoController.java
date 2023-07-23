@@ -3,6 +3,7 @@ package com.merikan.testcontainers.todo.controller;
 
 import com.merikan.testcontainers.todo.model.Todo;
 import com.merikan.testcontainers.todo.service.TodoService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,7 +51,7 @@ public class TodoController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Todo create(@Valid  @RequestBody Todo todo) {
+    public Todo create(@Valid @RequestBody Todo todo) {
         log.debug("create(todo: {})", todo);
         Todo created = service.save(todo);
         return created;

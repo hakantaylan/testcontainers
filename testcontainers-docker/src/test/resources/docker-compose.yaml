@@ -12,7 +12,7 @@ services:
   # Note: This may change the commands you are going to use a little bit.
   postgres:
     # Official Postgres image from DockerHub
-    image: 'postgres:13.2'
+    image: 'postgres:15.3'
 
     # By default, a Postgres database is running on the 5432 port.
     # If we want to access the database from our computer (outside the container),

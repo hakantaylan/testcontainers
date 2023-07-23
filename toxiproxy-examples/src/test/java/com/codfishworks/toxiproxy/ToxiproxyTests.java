@@ -70,7 +70,7 @@ public class ToxiproxyTests {
         connect.set("key", "value");
 
         // Let's add an artificial delay and see what happens...
-        proxy.toxics().latency("extra_latency", ToxicDirection.UPSTREAM, 1000);
+        proxy.toxics().latency("extra_latency", ToxicDirection.UPSTREAM, 1_000);
 
         Assertions.assertThrows(RedisCommandTimeoutException.class, () -> {
             connect.get("key");

@@ -2,6 +2,8 @@ package com.merikan.testcontainers.todo.service;
 
 import com.merikan.testcontainers.todo.model.Todo;
 import com.merikan.testcontainers.todo.repository.TodoRepository;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;

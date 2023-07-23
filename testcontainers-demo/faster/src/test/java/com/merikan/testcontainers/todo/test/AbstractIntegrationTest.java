@@ -1,6 +1,7 @@
 package com.merikan.testcontainers.todo.test;
 
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -8,6 +9,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.MariaDBContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
@@ -24,7 +26,7 @@ public abstract class AbstractIntegrationTest {
 
     private static final DockerImageName MARIADB_IMAGE = DockerImageName.parse("mariadb:10.5.5");
     private static final DockerImageName REDIS_IMAGE = DockerImageName.parse("redis:5.0.5");
-    private static final DockerImageName KAFKA_IMAGE = DockerImageName.parse("confluentinc/cp-kafka:5.2.1");
+    private static final DockerImageName KAFKA_IMAGE = DockerImageName.parse("confluentinc/cp-kafka:7.4.0");
     private static final DockerImageName SFTP_IMAGE = DockerImageName.parse("atmoz/sftp@sha256:975dc193e066e4226a3c4299536bb6c3d98cec27d06583055c25ccbdc30d0b61");
 
     private static final MariaDBContainer mariadb1;
@@ -48,10 +50,13 @@ public abstract class AbstractIntegrationTest {
         redis = new GenericContainer<>(REDIS_IMAGE)
             .withExposedPorts(6379)
             .withReuse(true)
-            .withLabel("reuse.UUID", "0429783b-c855-4b32-8239-258cba232b63");
+            .withLabel("reuse.UUID", "0429783b-c855-4b32-8239-258cba232b63")
+            .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("testcontainers.redis")));;
         kafka = new KafkaContainer(KAFKA_IMAGE)
+            .withKraft()
             .withReuse(true)
-            .withLabel("reuse.UUID", "f8724ec0-2f66-4684-80cd-1b24a7399366");
+            .withLabel("reuse.UUID", "f8724ec0-2f66-4684-80cd-1b24a7399366")
+            .withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("testcontainers.kafka")));;
         sftp = new GenericContainer<>(SFTP_IMAGE)
             .withCommand(String.format("%s:%s:::upload", "SFTP_USER", "SFTP_PASSWORD"))
             .withReuse(true)

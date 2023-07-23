@@ -3,6 +3,8 @@ package com.merikan.testcontainers.todo.service;
 import com.merikan.testcontainers.todo.model.Todo;
 import com.merikan.testcontainers.todo.repository.TodoRepository;
 import com.merikan.testcontainers.todo.test.AbstractIntegrationTest;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +22,6 @@ import org.testcontainers.containers.MariaDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.ConstraintViolationException;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.*;

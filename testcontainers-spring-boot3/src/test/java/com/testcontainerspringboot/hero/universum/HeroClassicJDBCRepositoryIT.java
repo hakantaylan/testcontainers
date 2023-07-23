@@ -1,22 +1,27 @@
 package com.testcontainerspringboot.hero.universum;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import com.mysql.cj.jdbc.MysqlDataSource;
-import java.util.Collection;
-import javax.sql.DataSource;
 import org.junit.jupiter.api.Test;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.output.Slf4jLogConsumer;
 import org.testcontainers.ext.ScriptUtils;
 import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+import javax.sql.DataSource;
+import java.util.Collection;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Testcontainers
 class HeroClassicJDBCRepositoryIT {
 
 	@Container
-	private MySQLContainer database = new MySQLContainer("mysql:latest");
+	private MySQLContainer database = new MySQLContainer<>(DockerImageName.parse("mysql:8.0.33"))
+			.withLogConsumer(new Slf4jLogConsumer(LoggerFactory.getLogger("testcontainers.mysql")));
 
 	private HeroClassicJDBCRepository repositoryUnderTest;
 

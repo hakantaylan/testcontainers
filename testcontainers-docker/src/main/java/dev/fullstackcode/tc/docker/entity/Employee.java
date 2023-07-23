@@ -1,9 +1,8 @@
 package dev.fullstackcode.tc.docker.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import dev.fullstackcode.tc.docker.entity.Gender;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
