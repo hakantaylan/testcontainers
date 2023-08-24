@@ -28,8 +28,8 @@ public class BaseIT2 {
     private static final DockerComposeContainer environment =
             new DockerComposeContainer<>(new File("src/test/resources/docker-compose.yaml"))
                     .withExposedService("postgres", POSTGRES_PORT, Wait.forListeningPort())
-//                    .waitingFor("postgres", Wait.forLogMessage("started", 1))
-//                    .withLocalCompose(true);
+                    .waitingFor("postgres", Wait.forLogMessage("started", 1))
+                    .withLocalCompose(true);
 
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {

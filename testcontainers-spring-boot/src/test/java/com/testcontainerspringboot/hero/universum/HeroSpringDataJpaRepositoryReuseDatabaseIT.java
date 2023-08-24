@@ -18,7 +18,7 @@ class HeroSpringDataJpaRepositoryReuseDatabaseIT extends DatabaseBaseTest {
 	private HeroSpringDataJpaRepository repositoryUnderTest;
 
 	@Test
-	void findHerosBySearchCriteria() {
+	void findHeroesBySearchCriteria() {
 		repositoryUnderTest.save(new Hero("Batman", "Gotham City", ComicUniversum.DC_COMICS));
 
 		Collection<Hero> heros = repositoryUnderTest.findHerosBySearchCriteria("Batman");
